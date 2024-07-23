@@ -1,5 +1,6 @@
 const User = require("./model");
 
+//Refactor: check if user already exists before creating new user?
 const registerUser = async (req, res) => {
   try {
    const user = await User.create(req.body);
