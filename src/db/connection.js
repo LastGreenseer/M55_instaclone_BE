@@ -1,10 +1,10 @@
-const { Sequelize } = require("sequelize")
+const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(process.env.MYSQL_URI, {
   pool: {
     max: 5,
     min: 0,
-    acuire: 30000,
+    acquire: 30000,
     idle: 10000,
   },
 });
