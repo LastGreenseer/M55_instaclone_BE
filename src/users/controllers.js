@@ -12,6 +12,21 @@ const registerUser = async (req, res) => {
   }
 };
 
+const removeAllUsers = async (req, res) => {
+  console.log("req.body", req.body)
+  try {
+    await User.destroy({
+      where: {},
+      truncate: true,
+    })
+
+    res.status(200).json({ message: "success"})
+  } catch (error) {
+    res.staus(500).json
+  }
+}
+
 module.exports = {
   registerUser,
+  removeAllUsers,
 };
