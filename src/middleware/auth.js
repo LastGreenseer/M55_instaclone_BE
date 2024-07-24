@@ -8,16 +8,17 @@ const hashPass = async (req, res, next) => {
   try {
     console.log("plaintextpassword before hash: ", req.body.password);
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-    console.log("hashedpassword ", hashedPassword);
+    console.log("hashe dpassword ", hashedPassword);
 
     req.body.password = hashedPassword;
 
     next();
   } catch (error) {
-    res.status(500).json()({ meesage: error.message, error });
+    console.error("Error in hashPass middleware", error);
+    res.status(500).json({ meesage: error.message, error });
   }
 };
 
 module.exports = {
-    hashPass,
-}
+  hashPass,
+};

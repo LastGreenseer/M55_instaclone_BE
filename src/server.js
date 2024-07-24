@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors")
 
+const userRouter = require("./users/routes");
 const User = require("./users/model");
-
-const userRouter=require("./users/routes")
 
 const port = process.env.PORT || 5001;
 
@@ -13,6 +13,7 @@ const syncTables = () => {
   User.sync();
 };
 
+app.use(cors())
 app.use(express.json());
 
 app.use("/user", userRouter);
