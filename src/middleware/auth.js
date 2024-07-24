@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const User = require("../users/model");
 
 const SECRET_KEY = process.env.SECRET;
 
@@ -19,6 +20,27 @@ const hashPass = async (req, res, next) => {
   }
 };
 
+const comparePass = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { username: req.body.username } });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    const match = await bcrypt.compare(req.body.password, user.password);
+    if (!match) {
+      return res.status(400).json({ message: "invalid password" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error.message, error });
+  }
+};
+
 module.exports = {
   hashPass,
+  comparePass
 };
