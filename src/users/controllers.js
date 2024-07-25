@@ -44,12 +44,23 @@ const removeAllUsers = async (req, res) => {
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    res.staus(500).json;
+    res.status(500).json;
   }
 };
+
+const getAllUsers = async (req, res) => {
+  try {
+    const user = await User.findAll()
+
+    res.status(200).json({ message: "success", user: user})
+  } catch (error) {
+    res.status(501).json({ message: error.message, error: error })
+  }
+}
 
 module.exports = {
   registerUser,
   login,
   removeAllUsers,
+  getAllUsers,
 };
