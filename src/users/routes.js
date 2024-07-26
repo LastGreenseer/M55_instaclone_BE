@@ -8,13 +8,13 @@ const {
   getAllUsers,
 } = require("./controllers");
 
-const { hashPass, comparePass } = require("../middleware/auth");
+const { hashPass, comparePass, verifyToken } = require("../middleware/auth");
 
 userRouter.post("/register", hashPass, registerUser);
 
 userRouter.post("/login", comparePass, login);
 
-userRouter.delete("/deleteAll", removeAllUsers);
+userRouter.delete("/deleteAll", verifyToken, removeAllUsers);
 
 userRouter.get("/getAllUsers", getAllUsers);
 

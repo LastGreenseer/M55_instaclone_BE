@@ -47,7 +47,7 @@ const verifyToken = async (req, res, next) => {
     console.log(token)
 
     if (!token) {
-      return res.status(401)({ message: "Unathorized Access!"})
+      return res.status(403)({ message: "Unathorized Access!"})
     }
 
     const decoded = jwt.verify(token, SECRET_KEY)
