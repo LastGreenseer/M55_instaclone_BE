@@ -1,4 +1,6 @@
 const User = require("./model");
+const jwt = require("jsonwebtoken")
+const SECRET_KEY = process.env.SECRET
 
 //Refactor: check if user already exists before creating new user?
 const registerUser = async (req, res) => {
@@ -22,7 +24,7 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "user not found"})
     }
 
-    const token = await jwt.sign({ id: req.user.id}, process.env.SECRET)
+    const token = jwt.sign({ id: user.id}, SECRET_KEY, {expiresIn: '3h'})
 
     const userInfo = {
       id: user.id,

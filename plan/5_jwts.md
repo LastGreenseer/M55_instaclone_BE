@@ -3,7 +3,7 @@ definition of done:
     2. cookies are stored in the front end 
     3. new 'favouriteImage' route is protected by token authentication
 
-stpes:
+steps:
     BE:
        1. modify 'login' to include a token
        2. include function to verify the token
