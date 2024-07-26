@@ -22,9 +22,12 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "user not found"})
     }
 
+    const token = await jwt.sign({ id: req.user.id}, process.env.SECRET)
+
     const userInfo = {
       id: user.id,
       username: user.username,
+      token: token,
     }
 
     res.status(200).json({ message: "success", user: userInfo })
