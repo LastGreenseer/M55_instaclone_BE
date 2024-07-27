@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../users/model");
+const jwt = require("jsonwebtoken")
 
 const SECRET_KEY = process.env.SECRET;
 
@@ -40,7 +41,36 @@ const comparePass = async (req, res, next) => {
   }
 };
 
+const verifyToken = async (req, res, next) => {
+  try {
+    const token = req.header("Authorization")
+    console.log(token)
+
+    if (!token) {
+      return res.status(403)({ message: "Unathorized Access!"})
+    }
+
+    const decoded = jwt.verify(token, SECRET_KEY)
+
+    if (!decoded.id) {
+      return res.status(403).json({ message: "Invalid user data"})
+    }
+
+    const user = await User.findOne({ where: { id: decoded.id}})
+    if (!user) {
+      return res.status(404).json({ message: "User not found"})
+    }
+
+    req.authCheck = user;
+
+    next ()
+  } catch (error) {
+    res.status(500).json({ message: error.message, error });
+  }
+}
+
 module.exports = {
   hashPass,
-  comparePass
+  comparePass,
+  verifyToken,
 };
